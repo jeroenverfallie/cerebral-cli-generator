@@ -11,10 +11,8 @@
       "indentationPrefersEditorConfig": true
     },
     "specialImports": [{
-      "keys": ["set", "unset", "toggle", "throttle", "debounce", "delay", "when"],
+      "keys": ["set", "unset", "toggle", "throttle", "debounce", "delay", "when", "copy"],
       "importPath": "cerebral/operators/{KEY}"
-    }, {
-      "myUniqueAction": "commons/actions/myUniqueAction"
     }],
     "legacy": {
       "signalFiles": false

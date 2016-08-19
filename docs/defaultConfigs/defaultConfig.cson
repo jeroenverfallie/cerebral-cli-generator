@@ -17,11 +17,9 @@ generator:
         "debounce"
         "delay"
         "when"
+        "copy"
       ]
       importPath: "cerebral/operators/{KEY}"
-    }
-    {
-      myUniqueAction: "commons/actions/myUniqueAction"
     }
   ]
   legacy:
@@ -31,7 +29,7 @@ generator:
       export default [
         () => throw new Error('Unimplemented cerebral chain {IDENTIFIER}')
       ];
-      
+
     '''
     action: '''
       function {IDENTIFIER}({{ARGUMENTS}}) {
@@ -39,7 +37,7 @@ generator:
       }
       {OUTPUTS}{ASYNC}
       export default {IDENTIFIER};
-      
+
     '''
     actionFactory: '''
       export default ({FACTORYARGUMENTS}) => {
@@ -49,7 +47,7 @@ generator:
       {OUTPUTS}{ASYNC}
         return {IDENTIFIER};
       };
-      
+
     '''
     chainFactory: '''
       export default ({FACTORYARGUMENTS}) => {
@@ -59,13 +57,13 @@ generator:
       {OUTPUTS}{ASYNC}
         return {IDENTIFIER};
       };
-      
+
     '''
     signal: '''
       export default [
           () => throw new Error('Unimplemented cerebral signal {IDENTIFIER}')
       ];
-      
+
     '''
   paths:
     actionFactory: "actionFactories"

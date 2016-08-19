@@ -31,5 +31,5 @@ export function performOnFile({filePath, config = null, write = false, logger = 
         fsHelpers.createFile(path.join(path.dirname(filePath), file.path), file.content);
     });
 
-    return composed;
+    return composed.content;
 }
