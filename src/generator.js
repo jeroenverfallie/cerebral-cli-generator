@@ -47,13 +47,15 @@ function generateImports(parseResult, config) {
         } else {
             path = `${typePaths[partType]}/${part.identifier}.js`;
             shouldCreateFile = true;
+
+            if (parseResult.type === 'SignalOrChainFile') {
+                path = `../${path}`;
+            } else {
+                path = `./${path}`;
+            }
         }
 
-        if (parseResult.type === 'SignalOrChainFile') {
-            path = `../${path}`;
-        } else {
-            path = `./${path}`;
-        }
+
 
         line = `import ${part.identifier} from '${path}'${config.style.imports.semiColon ? ';' : ''}`;
 
