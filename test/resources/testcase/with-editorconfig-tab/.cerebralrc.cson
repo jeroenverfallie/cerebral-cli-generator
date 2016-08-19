@@ -1,0 +1,68 @@
+generator:
+  style:
+    imports:
+      semiColon: false
+      sortAll: true
+      sortBy: "type"
+      separateGroups: "all"
+    indentation: "    "
+    indentationPrefersEditorConfig: true
+  specialImports: [
+    {
+      keys: [
+        "set"
+        "unset"
+        "toggle"
+        "throttle"
+        "debounce"
+        "delay"
+        "when"
+        "copy"
+      ]
+      importPath: "cerebral/operators/{KEY}"
+    }
+  ]
+  legacy:
+    signalFiles: false
+  templates:
+    chain: '''
+      export default [
+        () => throw new Error('Unimplemented cerebral chain {IDENTIFIER}')
+      ];
+    '''
+    action: '''
+      function {IDENTIFIER}({{ARGUMENTS}}) {
+        throw new Error('Unimplemented cerebral action {IDENTIFIER}');
+      }
+      {OUTPUTS}{ASYNC}
+      export default {IDENTIFIER};
+    '''
+    actionFactory: '''
+      export default ({FACTORYARGUMENTS}) => {
+        function {IDENTIFIER}({{ARGUMENTS}}) {
+          throw new Error('Unimplemented cerebral factory {IDENTIFIER}');
+        }
+      {OUTPUTS}{ASYNC}
+        return {IDENTIFIER};
+      };
+    '''
+    chainFactory: '''
+      export default ({FACTORYARGUMENTS}) => {
+        function {IDENTIFIER}({{ARGUMENTS}}) {
+          throw new Error('Unimplemented cerebral factory {IDENTIFIER}');
+        }
+      {OUTPUTS}{ASYNC}
+        return {IDENTIFIER};
+      };
+    '''
+    signal: '''
+      export default [
+          () => throw new Error('Unimplemented cerebral signal {IDENTIFIER}')
+      ];
+    '''
+  paths:
+    actionFactory: "actionFactories"
+    chainFactory: "chainFactories"
+    chain: "chains"
+    action: "actions"
+    signal: "signals"

@@ -38,6 +38,7 @@ function getConfigRc(filePath) {
         return {};
     }
 
+
     try {
         const config = season.readFileSync(configPath);
         return config && config.generator ? config.generator : {};

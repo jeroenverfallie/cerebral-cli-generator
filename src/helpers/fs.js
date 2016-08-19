@@ -3,7 +3,14 @@ import path from 'path';
 import mkdirp from 'mkdirp';
 
 export function verifyExists(fullPath) {
-    return fs.existsSync(fullPath) ? fullPath : null;
+    if(fs.existsSync(fullPath)) {
+        return fullPath;
+    } else if (fs.existsSync(fullPath + '.json')) {
+        return fullPath + '.json';
+    } else if (fs.existsSync(fullPath + '.cson')) {
+        return fullPath + '.cson';
+    }
+    return false;
 }
 
 export function findRecursive(dir, fileName) {
@@ -26,8 +33,8 @@ export function findConfigFilePath(dir, filename) {
     let configPath = findRecursive(dir, filename);
 
     if (!configPath) {
-        const inHomePath = path.join(getUserHome(), filename);
-        if (verifyExists(inHomePath)) {
+        const inHomePath = verifyExists(path.join(getUserHome(), filename));
+        if (inHomePath) {
             configPath = inHomePath;
         }
     }

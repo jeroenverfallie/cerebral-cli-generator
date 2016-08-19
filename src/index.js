@@ -12,8 +12,12 @@ const defaultLogger = {
 export function performOnFile({filePath, config = null, write = false, logger = defaultLogger}) {
     const mergedConfig = configHelpers.getConfig(filePath, config);
 
+    logger.log('CEREBRAL-CLI-GENERATOR: Parsed config', mergedConfig);
+
     const fileContent = fs.readFileSync(filePath, {encoding: 'utf8'});
     const parseResult = parser.parse(fileContent);
+
+    logger.log('CEREBRAL-CLI-GENERATOR: ParseResult', parseResult);
 
     if (!parseResult) {
         return false;
@@ -21,13 +25,15 @@ export function performOnFile({filePath, config = null, write = false, logger = 
 
     const composed = generator.generate(fileContent, parseResult, mergedConfig);
 
+    logger.log('CEREBRAL-CLI-GENERATOR: composed', composed);
+
     if (write) {
-        logger.log(`Generated and wrote imports for ${filePath}`);
+        logger.log(`CEREBRAL-CLI-GENERATOR: Generated and wrote imports for ${filePath}`);
         fs.writeFileSync(filePath, composed.content);
     }
 
     composed.filesToCreate.forEach(file => {
-        logger.log(`Generated file ${file.path}`);
+        logger.log(`CEREBRAL-CLI-GENERATOR: Generated file ${file.path}`);
         fsHelpers.createFile(path.join(path.dirname(filePath), file.path), file.content);
     });
 

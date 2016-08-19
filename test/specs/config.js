@@ -26,6 +26,7 @@ describe('Config files', () => {
     it('should respect editorConfig (tab) when provided', () => {
         const config = configHelpers.getConfig('with-editorconfig-tab/controller.js');
         expect(config.style.indentation).to.equal('\t');
+        expect(config.style.imports.semiColon).to.equal(false);
     });
 
     it('should merge configs properly with rc file', () => {
