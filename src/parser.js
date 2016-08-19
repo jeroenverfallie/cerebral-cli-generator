@@ -181,8 +181,14 @@ function parseCollection(collection) {
                 if (!chainProp) {
                     continue;
                 }
-                part.type = 'chain';
-                part.identifier = chainProp.value.name;
+                if (chainProp.value.name) {
+                    part.type = 'chain';
+                    part.identifier = chainProp.value.name;
+                } else if (chainProp.value.elements) {
+                    const subParts = parseCollection(chainProp.value.elements);
+                    foundParts.push(...subParts);
+                    continue;
+                }
             } else {
                 if (!element.value.name) {
                     continue;

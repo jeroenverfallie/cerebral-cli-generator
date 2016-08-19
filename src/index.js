@@ -7,7 +7,7 @@ import * as configHelpers from './helpers/config.js';
 import * as parser from './parser.js';
 import * as generator from './generator.js';
 
-export function performOnFile({ filePath, config = false, write = false, logger = console }) {
+export function performOnFile({ filePath, config = false, write = false, logger = {log: () => {}} }) {
     const mergedConfig = configHelpers.getConfig(filePath, config);
 
     const fileContent = fs.readFileSync(filePath, {encoding: 'utf8'});

@@ -2,6 +2,7 @@ import path from 'path';
 import season from 'season';
 import editorConfig from 'editorconfig';
 import deepExtend from 'deep-extend';
+import clone from 'clone';
 
 import * as fsHelpers from './fs.js';
 import defaultConfig from '../config/defaultConfig.js';
@@ -10,12 +11,12 @@ const CONFIG_FILENAME = '.cerebralrc';
 
 export function getConfig(filePath, masterConfig) {
     const userConfig = !masterConfig || masterConfig.useRcFile ? getConfigRc(filePath) : masterConfig;
-    const config = deepExtend(defaultConfig, userConfig);
+    const config = deepExtend(clone(defaultConfig), userConfig);
 
     // Check editorconfig
     if (config.style.indentationPrefersEditorConfig) {
         const ec = editorConfig.parseSync(filePath);
-        if (ec) {
+        if (ec && ec.indent_style) {
             if (ec.indent_style === 'space') {
                 config.style.indentation = new Array(ec.indent_size + 1).join(' ');
             }
@@ -37,16 +38,16 @@ function getConfigRc(filePath) {
         return {};
     }
 
-    return season.readFileSync(configPath) || {};
+    try {
+        return season.readFileSync(configPath) || {};
+    } catch (exception) {
+        return {};
+    }
 }
 
 function mapSpecialImports(config) {
-    if (!config.map) {
-        return {};
-    }
-
     const map = {};
-    config.map(node => {
+    const processNode = (node) => {
         if (node.keys && node.importPath) {
             node.keys.map(key => {
                 map[key] = node.importPath.replace(/\{KEY\}/g, key);
@@ -56,7 +57,13 @@ function mapSpecialImports(config) {
                 map[key] = node[key];
             });
         }
-    });
+    };
+
+    if (config instanceof Array) {
+        config.map(processNode);
+    } else if (config instanceof Object) {
+        processNode(config);
+    }
 
     return map;
 }

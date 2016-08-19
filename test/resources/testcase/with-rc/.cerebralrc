@@ -1,0 +1,9 @@
+{
+    "style": {
+        "indentation": "  ",
+        "indentationPrefersEditorConfig": false
+    },
+    "specialImports": [
+        {"specialAction": "commons/actions/specialAction"}
+    ]
+}

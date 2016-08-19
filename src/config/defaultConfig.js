@@ -14,7 +14,7 @@ export default {
     },
     specialImports: [
         {
-            keys: ['set', 'unset', 'toggle', 'throttle', 'debounce', 'delay', 'when'],
+            keys: ['set', 'unset', 'toggle', 'throttle', 'debounce', 'delay', 'when', 'copy'],
             importPath: 'cerebral/operators/{KEY}'
         }
     ],

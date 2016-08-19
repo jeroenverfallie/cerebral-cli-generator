@@ -42,16 +42,17 @@ function generateImports(parseResult, config) {
             partType = config.legacy.signalFiles ? 'signal' : 'chain';
         }
 
-        if (parseResult.type === 'SignalOrChainFile') {
-            if (config.specialImportsMap[part.identifier]) {
-               path = config.specialImportsMap[part.identifier];
-            } else {
-               path = `../${typePaths[partType]}/${part.identifier}.js`;
-               shouldCreateFile = true;
-            }
+        if (config.specialImportsMap[part.identifier]) {
+            path = config.specialImportsMap[part.identifier];
         } else {
-            path = `./${typePaths[partType]}/${part.identifier}.js`;
+            path = `${typePaths[partType]}/${part.identifier}.js`;
             shouldCreateFile = true;
+        }
+
+        if (parseResult.type === 'SignalOrChainFile') {
+            path = `../${path}`;
+        } else {
+            path = `./${path}`;
         }
 
         line = `import ${part.identifier} from '${path}'${config.style.imports.semiColon ? ';' : ''}`;
