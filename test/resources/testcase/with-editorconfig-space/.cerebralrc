@@ -1,8 +1,10 @@
 {
+  "generator": {
     "style": {
-        "indentation": "  "
+      "indentation": "  "
     },
     "specialImports": [
-        {"specialAction": "commons/actions/specialAction"}
+      {"specialAction": "commons/actions/specialAction"}
     ]
+  }
 }

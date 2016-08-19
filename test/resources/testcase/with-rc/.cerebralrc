@@ -1,9 +1,11 @@
 {
+  "generator": {
     "style": {
-        "indentation": "  ",
-        "indentationPrefersEditorConfig": false
+      "indentation": "  ",
+      "indentationPrefersEditorConfig": false
     },
     "specialImports": [
-        {"specialAction": "commons/actions/specialAction"}
+      {"specialAction": "commons/actions/specialAction"}
     ]
+  }
 }
