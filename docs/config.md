@@ -1,3 +1,10 @@
+# .cerebralrc
+
+The generator will search for a .cerebralrc file from the file all the way up your filesystem, and finally in your home directory.
+If found, it will overwrite any cli flags or editor options.
+
+The file can be in either json or cson. Important: if you choose cson, the extension is required. (so .cerebralrc.cson)
+
 # Generator Config format
 
 > See the default configs [here](https://github.com/jeroenverfallie/cerebral-cli-generator/tree/master/docs/defaultConfigs) .
