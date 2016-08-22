@@ -27,6 +27,10 @@ export function performOnFile({filePath, config = null, write = false, logger = 
 
     logger.log('CEREBRAL-CLI-GENERATOR: composed', composed);
 
+    if (!composed) {
+        return false;
+    }
+
     if (write) {
         logger.log(`CEREBRAL-CLI-GENERATOR: Generated and wrote imports for ${filePath}`);
         fs.writeFileSync(filePath, composed.content);
