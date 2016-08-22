@@ -9,12 +9,12 @@ const defaultLogger = {
     log() {}
 };
 
-export function performOnFile({filePath, config = null, write = false, logger = defaultLogger}) {
+export function performOnFile({filePath, config = null, write = false, logger = defaultLogger, content = false}) {
     const mergedConfig = configHelpers.getConfig(filePath, config);
 
     logger.log('CEREBRAL-CLI-GENERATOR: Parsed config', mergedConfig);
 
-    const fileContent = fs.readFileSync(filePath, {encoding: 'utf8'});
+    const fileContent = content || fs.readFileSync(filePath, {encoding: 'utf8'});
     const parseResult = parser.parse(fileContent);
 
     logger.log('CEREBRAL-CLI-GENERATOR: ParseResult', parseResult);
