@@ -45,7 +45,7 @@ function generateImports(parseResult, config) {
         if (config.specialImportsMap[part.identifier]) {
             path = config.specialImportsMap[part.identifier];
         } else {
-            path = `${typePaths[partType]}/${part.identifier}.js`;
+            path = `${typePaths[partType]}/${part.identifier}${config.extension}`;
             shouldCreateFile = true;
 
             if (parseResult.type === 'SignalOrChainFile') {
@@ -56,8 +56,8 @@ function generateImports(parseResult, config) {
         }
 
 
-
-        line = `import ${part.identifier} from '${path}'${config.style.imports.semiColon ? ';' : ''}`;
+        const importPath = config.style.imports.extension ? path : path.replace(config.extension, '');
+        line = `import ${part.identifier} from '${importPath}'${config.style.imports.semiColon ? ';' : ''}`;
 
         let content = false;
         if (shouldCreateFile) {

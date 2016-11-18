@@ -7,7 +7,8 @@ export default {
             semiColon: true,
             sortAll: true, // If enabled, existing imports will be managed, sorted too
             sortBy: 'type', // Sort imports by 'type' or 'appearance'
-            separateGroups: 'all' // If sorted by type, separate the groups by an empty line, ['all', 'local', 'none']
+            separateGroups: 'all', // If sorted by type, separate the groups by an empty line, ['all', 'local', 'none']
+            extension: true // add extension to the path
         },
         indentation: '    ', // Define the indentation to use in the templates.
         indentationPrefersEditorConfig: true
@@ -34,5 +35,6 @@ export default {
         chain: 'chains',
         action: 'actions',
         signal: 'signals'
-    }
+    },
+    extension: '.js'
 };

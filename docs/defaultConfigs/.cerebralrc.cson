@@ -5,6 +5,7 @@ generator:
       sortAll: true
       sortBy: "type"
       separateGroups: "all"
+      extension: true
     indentation: "    "
     indentationPrefersEditorConfig: true
   specialImports: [
@@ -71,3 +72,4 @@ generator:
     chain: "chains"
     action: "actions"
     signal: "signals"
+  extension: ".js"

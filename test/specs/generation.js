@@ -76,6 +76,24 @@ describe('Config files', () => {
         expect(fileExists('./modules/mailbox/actions/fetchMessagesAsync.js')).to.be.true;
     });
 
+    it('should respect extension option', () => {
+        generation.performOnFile({
+            filePath: './modules/mailbox/chains/mailboxOpened.js',
+            write: true,
+            config: {
+                style: {
+                    imports: {
+                        extension: false
+                    }
+                }
+            }
+        });
+
+        const content = getFileContent('./modules/mailbox/chains/mailboxOpened.js');
+        expect(content.indexOf('.js')).to.equal(-1);
+        expect(fileExists('./modules/mailbox/actions/fetchMessagesAsync.js')).to.be.true;
+    });
+
     it('should work on signalsDeclaration files', () => {
         generation.performOnFile({
             filePath: './modules/mailbox/signals.js',

@@ -5,7 +5,8 @@
         "semiColon": true,
         "sortAll": true,
         "sortBy": "type",
-        "separateGroups": "all"
+        "separateGroups": "all",
+        "extension": true
       },
       "indentation": "    ",
       "indentationPrefersEditorConfig": true
@@ -30,6 +31,7 @@
       "chain": "chains",
       "action": "actions",
       "signal": "signals"
-    }
+    },
+    "extension": ".js"
   }
 }
