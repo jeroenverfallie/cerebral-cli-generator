@@ -70,6 +70,16 @@ function recursiveFindAddSignals(body) {
         return body.expression.arguments[0];
     }
 
+    if (
+        body.type === "ReturnStatement"
+        && (
+            body.argument.type === "ArrowFunctionExpression"
+            || body.argument.type === "FunctionExpression"
+        )
+    ) {
+        return recursiveFindAddSignals(body.argument);
+    }
+
     if (body.declaration) {
         return recursiveFindAddSignals(body.declaration.body);
     }
@@ -78,6 +88,7 @@ function recursiveFindAddSignals(body) {
         return recursiveFindAddSignals(body.body);
     }
 
+
     return false;
 }
 
@@ -85,10 +96,13 @@ function recursiveFindAddSignals(body) {
 function getDeclaration(body, text) {
     if (text.indexOf('addSignals') > -1) {
         const node = recursiveFindAddSignals(body);
-        const elements = node.properties;
-        const parts = parseCollection(elements);
+        if (node) {
+            const elements = node.properties;
 
-        return {parts: parts, type: 'ModuleFile'};
+            const parts = parseCollection(elements);
+
+            return {parts: parts, type: 'ModuleFile'};
+        }
     }
 
 

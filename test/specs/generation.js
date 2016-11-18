@@ -47,6 +47,26 @@ describe('Config files', () => {
         expect(fileExists('./modules/mailbox/chains/sampleChain.js')).to.be.true;
     });
 
+    it('should work on module factory files', () => {
+        generation.performOnFile({
+            filePath: './modules/message/index.js',
+            write: true,
+        });
+
+        expect(fileExists('./modules/message/chains/messageOpened.js')).to.be.true;
+        expect(fileExists('./modules/message/chains/sampleChain.js')).to.be.true;
+    });
+
+    it('should work on module factory files es5', () => {
+        generation.performOnFile({
+            filePath: './modules/message-function/index.js',
+            write: true,
+        });
+
+        expect(fileExists('./modules/message-function/chains/messageOpened.js')).to.be.true;
+        expect(fileExists('./modules/message-function/chains/sampleChain.js')).to.be.true;
+    });
+
     it('should work on signal/chain files', () => {
         generation.performOnFile({
             filePath: './modules/mailbox/chains/mailboxOpened.js',
