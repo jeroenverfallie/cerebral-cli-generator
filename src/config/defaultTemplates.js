@@ -1,5 +1,5 @@
 export const chain = `export default [
-  () => throw new Error('Unimplemented cerebral chain {IDENTIFIER}')
+  () => { throw new Error('Unimplemented cerebral chain {IDENTIFIER}'); }
 ];
 `;
 
