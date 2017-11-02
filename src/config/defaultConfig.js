@@ -53,7 +53,8 @@ export default {
         chainFactory: 'chainFactories',
         chain: 'chains',
         action: 'actions',
-        signal: 'signals'
+        signal: 'signals',
+        tag: 'tags'
     },
     extension: '.js'
 };

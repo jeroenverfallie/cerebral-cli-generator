@@ -152,13 +152,26 @@ function getDeclaration(body, text) {
 function parseCollection(collection) {
     let foundParts = [];
     let lastPart = null;
-
     for (const element of collection) {
         const part = {};
         if (element.type === 'CallExpression') {
             part.type = 'actionFactory';
             part.identifier = element.callee.name;
             part.argumentCount = element.arguments.length;
+
+            const arrays = element.arguments.filter(
+                a => a.type === 'ArrayExpression'
+            );
+
+            if (arrays && arrays.length) {
+                const subParts = arrays.reduce((all, current) => {
+                    console.log(current.elements);
+                    return all.concat(...parseCollection(current.elements));
+                }, []);
+                foundParts.push(part, ...subParts);
+                continue;
+            }
+
             const subParts = element.arguments.reduce((all, prop) => {
                 if (prop.type === 'TaggedTemplateExpression') {
                     return all.concat({
@@ -183,8 +196,7 @@ function parseCollection(collection) {
                         identifier: prop.value.name
                     });
                 }
-
-                return all.concat(parseCollection(prop.value.elements));
+                return all.concat(parseCollection([prop.value]));
             }, []);
             foundParts.push(...subParts);
 
