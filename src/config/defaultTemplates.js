@@ -9,17 +9,15 @@ export const signal = `export default [
 `;
 
 export const factory = `export default ({FACTORYARGUMENTS}) => {
-  function {IDENTIFIER}({{ARGUMENTS}}) {
+  {ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {
     throw new Error('Unimplemented cerebral factory {IDENTIFIER}');
   }
-{OUTPUTS}{ASYNC}
   return {IDENTIFIER};
 };
 `;
 
-export const action = `function {IDENTIFIER}({{ARGUMENTS}}) {
+export const action = `{ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {
   throw new Error('Unimplemented cerebral action {IDENTIFIER}');
 }
-{OUTPUTS}{ASYNC}
 export default {IDENTIFIER};
 `;

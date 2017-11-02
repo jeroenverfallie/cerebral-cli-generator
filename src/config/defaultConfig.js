@@ -1,6 +1,5 @@
 import * as defaultTemplates from './defaultTemplates.js';
 
-
 export default {
     style: {
         imports: {
@@ -15,8 +14,21 @@ export default {
     },
     specialImports: [
         {
-            keys: ['set', 'unset', 'toggle', 'throttle', 'debounce', 'delay', 'when', 'copy'],
+            keys: [
+                'set',
+                'unset',
+                'toggle',
+                'throttle',
+                'debounce',
+                'delay',
+                'when',
+                'copy'
+            ],
             importPath: 'cerebral/operators/{KEY}'
+        },
+        {
+            keys: ['state', 'props'],
+            importPath: 'cerebral/tags/{KEY}'
         }
     ],
     legacy: {

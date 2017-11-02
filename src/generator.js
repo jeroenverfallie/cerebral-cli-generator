@@ -22,57 +22,72 @@ function generateContent(part, partType, config) {
             content = signalTemplate(part, config.templates.signal);
             break;
         default:
-            content = ''
+            content = '';
     }
 
     return content;
 }
 
-
 function generateImports(parseResult, config) {
     const { paths: typePaths } = config;
 
-    return parseResult.newParts.map(part => {
-        let line = '';
-        let path = '';
-        let shouldCreateFile = false;
+    const uniqueLines = [];
 
-        let partType = part.type;
-        if (partType === 'chain_signal') {
-            partType = config.legacy.signalFiles ? 'signal' : 'chain';
-        }
+    return parseResult.newParts
+        .map(part => {
+            let line = '';
+            let path = '';
+            let shouldCreateFile = false;
 
-        if (config.specialImportsMap[part.identifier]) {
-            path = config.specialImportsMap[part.identifier];
-        } else {
-            path = `${typePaths[partType]}/${part.identifier}${config.extension}`;
-            shouldCreateFile = true;
-
-            if (parseResult.type === 'SignalOrChainFile') {
-                path = `../${path}`;
-            } else {
-                path = `./${path}`;
+            let partType = part.type;
+            if (partType === 'chain_signal') {
+                partType = config.legacy.signalFiles ? 'signal' : 'chain';
             }
-        }
 
+            if (config.specialImportsMap[part.identifier]) {
+                path = config.specialImportsMap[part.identifier];
+            } else {
+                path = `${typePaths[
+                    partType
+                ]}/${part.identifier}${config.extension}`;
+                shouldCreateFile = true;
 
-        const importPath = config.style.imports.extension ? path : path.replace(config.extension, '');
-        line = `import ${part.identifier} from '${importPath}'${config.style.imports.semiColon ? ';' : ''}`;
+                if (parseResult.type === 'SignalOrChainFile') {
+                    path = `../${path}`;
+                } else {
+                    path = `./${path}`;
+                }
+            }
 
-        let content = false;
-        if (shouldCreateFile) {
-            content = generateContent(part, partType, config);
-            content = content.replace(/\ {2}/g, config.style.indentation);
-        }
+            const importPath = config.style.imports.extension
+                ? path
+                : path.replace(config.extension, '');
+            line = `import ${part.identifier} from '${importPath}'${config.style
+                .imports.semiColon
+                ? ';'
+                : ''}`;
 
-        return {
-            identifiers: [part.identifier],
-            lines: [line],
-            path: path,
-            shouldCreateFile: shouldCreateFile,
-            content
-        };
-    });
+            let content = false;
+            if (shouldCreateFile) {
+                content = generateContent(part, partType, config);
+                content = content.replace(/\ {2}/g, config.style.indentation);
+            }
+
+            if (uniqueLines.indexOf(line) === -1) {
+                uniqueLines.push(line);
+            } else {
+                return null;
+            }
+
+            return {
+                identifiers: [part.identifier],
+                lines: [line],
+                path: path,
+                shouldCreateFile: shouldCreateFile,
+                content
+            };
+        })
+        .filter(t => t);
 }
 
 export function generate(fileContent, parseResult, config) {
@@ -89,8 +104,8 @@ export function generate(fileContent, parseResult, config) {
             }
         });
         newContent = lines
-                    .filter(line => line !== '_____REMOVE_THIS_LINE_____')
-                    .join('\n');
+            .filter(line => line !== '_____REMOVE_THIS_LINE_____')
+            .join('\n');
 
         imports = [...parseResult.imports, ...newImports];
     }
@@ -118,20 +133,26 @@ export function generate(fileContent, parseResult, config) {
     }
 
     if (imports && imports.length > 0) {
-        const groupRegex = '(' + Object.keys(config.paths).reduce((sum, key) => [...sum, config.paths[key]], []).join('|') + ')';
+        const groupRegex =
+            '(' +
+            Object.keys(config.paths)
+                .reduce((sum, key) => [...sum, config.paths[key]], [])
+                .join('|') +
+            ')';
 
         let importsText = '';
         let lastFirstPartOfPath = false;
         imports.map(imp => {
             const matches = imp.path.match(groupRegex);
-            const thisFirstPartOfPath = matches && matches.length ? matches[0] : imp.path.slice(0, 6);
+            const thisFirstPartOfPath =
+                matches && matches.length ? matches[0] : imp.path.slice(0, 6);
             if (
                 config.style.imports.separateGroups !== 'none' &&
-                (
-                    config.style.imports.separateGroups === 'all' ||
-                    (config.style.imports.separateGroups === 'local' && thisFirstPartOfPath.slice(0, 1) === '.')
-                ) &&
-                lastFirstPartOfPath && lastFirstPartOfPath !== thisFirstPartOfPath
+                (config.style.imports.separateGroups === 'all' ||
+                    (config.style.imports.separateGroups === 'local' &&
+                        thisFirstPartOfPath.slice(0, 1) === '.')) &&
+                lastFirstPartOfPath &&
+                lastFirstPartOfPath !== thisFirstPartOfPath
             ) {
                 importsText += '\n';
             }

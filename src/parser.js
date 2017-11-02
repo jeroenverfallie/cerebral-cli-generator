@@ -1,7 +1,7 @@
 import * as babylon from 'babylon';
 
 export function parse(text) {
-    const source = babylon.parse(text, {sourceType: 'module'});
+    const source = babylon.parse(text, { sourceType: 'module' });
     const body = source.program.body;
 
     const lines = text.split('\n');
@@ -13,12 +13,16 @@ export function parse(text) {
         return false;
     }
 
-    const newParts = declaration.parts.filter(part => {
-        return !imports.find(imp => imp.identifiers.indexOf(part.identifier) > -1);
-    }).map(part => {
-        part.async = part.identifier.toLowerCase().indexOf('async') > -1;
-        return part;
-    });
+    const newParts = declaration.parts
+        .filter(part => {
+            return !imports.find(
+                imp => imp.identifiers.indexOf(part.identifier) > -1
+            );
+        })
+        .map(part => {
+            part.async = part.identifier.toLowerCase().indexOf('async') > -1;
+            return part;
+        });
 
     return {
         imports,
@@ -29,84 +33,81 @@ export function parse(text) {
 }
 
 function getImports(body, lines) {
-    return body
-            .filter(node => node.type === 'ImportDeclaration')
-            .map(node => {
-                const identifiers = node.specifiers
-                                            .filter(obj => obj.local.type === 'Identifier')
-                                            .map(identifier => identifier.local.name);
-                const path = node.source.value;
-                const start = node.loc.start.line - 1;
-                const end = node.loc.end.line;
+    return body.filter(node => node.type === 'ImportDeclaration').map(node => {
+        const identifiers = node.specifiers
+            .filter(obj => obj.local.type === 'Identifier')
+            .map(identifier => identifier.local.name);
+        const path = node.source.value;
+        const start = node.loc.start.line - 1;
+        const end = node.loc.end.line;
 
-                return {
-                    lines: lines.slice(start, end),
-                    loc: {
-                        start,
-                        end
-                    },
-                    identifiers,
-                    path
-                };
-            });
+        return {
+            lines: lines.slice(start, end),
+            loc: {
+                start,
+                end
+            },
+            identifiers,
+            path
+        };
+    });
 }
 
-function recursiveFindAddSignals(body) {
+function recursiveFindSignals(body) {
     if (body.forEach) {
-        for(let i = 0; i < body.length; i++) {
-            const result = recursiveFindAddSignals(body[i]);
+        for (let i = 0; i < body.length; i++) {
+            const result = recursiveFindSignals(body[i]);
             if (result) {
-                 return result;
+                return result;
             }
         }
     }
 
-    if (
-        body.type === "ExpressionStatement"
-        && body.expression.type === "CallExpression"
-        && body.expression.callee
-        && body.expression.callee.property.name === "addSignals"
-    ) {
-        return body.expression.arguments[0];
+    if (body.type === 'ObjectProperty') {
+        if (body.key.name === 'signals') {
+            return body.value;
+        }
+    }
+
+    if (body.type === 'ObjectExpression') {
+        return recursiveFindSignals(body.properties);
     }
 
     if (
-        body.type === "ReturnStatement"
-        && (
-            body.argument.type === "ArrowFunctionExpression"
-            || body.argument.type === "FunctionExpression"
-        )
+        body.type === 'ReturnStatement' &&
+        (body.argument.type === 'ArrowFunctionExpression' ||
+            body.argument.type === 'FunctionExpression' ||
+            body.argument.type === 'ObjectExpression')
     ) {
-        return recursiveFindAddSignals(body.argument);
+        return recursiveFindSignals(body.argument);
     }
 
-    if (body.declaration) {
-        return recursiveFindAddSignals(body.declaration.body);
+    if (body.declaration && body.declaration.body) {
+        return recursiveFindSignals(body.declaration.body);
     }
 
     if (body.body) {
-        return recursiveFindAddSignals(body.body);
+        return recursiveFindSignals(body.body);
     }
-
 
     return false;
 }
 
-
 function getDeclaration(body, text) {
-    if (text.indexOf('addSignals') > -1) {
-        const node = recursiveFindAddSignals(body);
+    if (text.indexOf('signals') > -1) {
+        const node = recursiveFindSignals(body);
         if (node) {
             const elements = node.properties;
 
             const parts = parseCollection(elements);
 
-            return {parts: parts, type: 'ModuleFile'};
+            return { parts: parts, type: 'ModuleFile' };
         }
     }
 
-
-    const exportDefaultDeclaration = body.find(node => node.type === 'ExportDefaultDeclaration');
+    const exportDefaultDeclaration = body.find(
+        node => node.type === 'ExportDefaultDeclaration'
+    );
     if (!exportDefaultDeclaration) {
         return false;
     }
@@ -116,10 +117,18 @@ function getDeclaration(body, text) {
         const elements = signalDeclaration.elements;
         const parts = parseCollection(elements);
         const uniqueParts = parts.reduce((unique, part) => {
-            const found = unique.find(item => item.identifier === part.identifier);
+            const found = unique.find(
+                item => item.identifier === part.identifier
+            );
             if (found) {
-                if (found.argumentCount !== undefined && part.argumentCount !== undefined) {
-                    found.argumentCount = Math.max(found.argumentCount, part.argumentCount);
+                if (
+                    found.argumentCount !== undefined &&
+                    part.argumentCount !== undefined
+                ) {
+                    found.argumentCount = Math.max(
+                        found.argumentCount,
+                        part.argumentCount
+                    );
                 }
             } else {
                 unique.push(part);
@@ -127,20 +136,18 @@ function getDeclaration(body, text) {
             return unique;
         }, []);
 
-        return {parts: uniqueParts, type: 'SignalOrChainFile'};
+        return { parts: uniqueParts, type: 'SignalOrChainFile' };
     }
 
     if (signalDeclaration.type === 'ObjectExpression') {
         const elements = signalDeclaration.properties;
         const parts = parseCollection(elements);
 
-        return {parts, type: 'SignalDefinitionsFile'};
+        return { parts, type: 'SignalDefinitionsFile' };
     }
 
     return false;
 }
-
-
 
 function parseCollection(collection) {
     let foundParts = [];
@@ -152,16 +159,28 @@ function parseCollection(collection) {
             part.type = 'actionFactory';
             part.identifier = element.callee.name;
             part.argumentCount = element.arguments.length;
+            const subParts = element.arguments.reduce((all, prop) => {
+                if (prop.type === 'TaggedTemplateExpression') {
+                    return all.concat({
+                        type: 'tag',
+                        identifier: prop.tag.name
+                    });
+                }
+                return all;
+            }, []);
+            foundParts.push(...subParts);
         } else if (element.type === 'ObjectExpression') {
             if (lastPart) {
-                lastPart.outputs = element.properties.map(prop => prop.key.name);
+                lastPart.outputs = element.properties.map(
+                    prop => prop.key.name
+                );
             }
 
             const subParts = element.properties.reduce((all, prop) => {
                 if (prop.value.type === 'Identifier') {
                     return all.concat({
                         type: 'chain',
-                        identifier: prop.value.name,
+                        identifier: prop.value.name
                     });
                 }
 
@@ -191,7 +210,9 @@ function parseCollection(collection) {
             }
         } else if (element.type === 'ObjectProperty') {
             if (element.value.type === 'ObjectExpression') {
-                const chainProp = element.value.properties.find(item => item.key.name === 'chain');
+                const chainProp = element.value.properties.find(
+                    item => item.key.name === 'chain'
+                );
                 if (!chainProp) {
                     continue;
                 }
