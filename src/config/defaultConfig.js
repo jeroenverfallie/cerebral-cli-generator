@@ -7,7 +7,7 @@ export default {
             sortAll: true, // If enabled, existing imports will be managed, sorted too
             sortBy: 'type', // Sort imports by 'type' or 'appearance'
             separateGroups: 'all', // If sorted by type, separate the groups by an empty line, ['all', 'local', 'none']
-            extension: true // add extension to the path
+            extension: false // add extension to the path
         },
         indentation: '    ', // Define the indentation to use in the templates.
         indentationPrefersEditorConfig: true
@@ -39,7 +39,7 @@ export default {
         }
     ],
     legacy: {
-        signalFiles: false
+        signalFiles: true
     },
     templates: {
         chain: defaultTemplates.chain,

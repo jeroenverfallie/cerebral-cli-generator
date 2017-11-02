@@ -67,10 +67,6 @@ Or an object with `keys` and `importPath`.
 
 Equal to the one-to-one mapping above.
 
-## generator.legacy.signalFiles (`boolean` - default: `false`)
-
-If you want signalFiles, enabled this. Otherwise everything will be a chain.
-
 ## generator.templates (`object`)
 
 Requires `chain`, `action`, `chainFactory`, `actionFactory` templates. Optionally requires `signal` template depending on the legacy option.

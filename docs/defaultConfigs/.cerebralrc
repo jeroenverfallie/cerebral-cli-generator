@@ -1,37 +1,35 @@
 {
-  "generator": {
-    "style": {
-      "imports": {
-        "semiColon": true,
-        "sortAll": true,
-        "sortBy": "type",
-        "separateGroups": "all",
-        "extension": true
-      },
-      "indentation": "    ",
-      "indentationPrefersEditorConfig": true
+  "style": {
+    "imports": {
+      "semiColon": true,
+      "sortAll": true,
+      "sortBy": "type",
+      "separateGroups": "all",
+      "extension": false
     },
-    "specialImports": [{
-      "keys": ["set", "unset", "toggle", "throttle", "debounce", "delay", "when", "copy"],
-      "importPath": "cerebral/operators/{KEY}"
-    }],
-    "legacy": {
-      "signalFiles": false
-    },
-    "templates": {
-      "chain": "export default [\n  () => throw new Error('Unimplemented cerebral chain {IDENTIFIER}')\n];\n",
-      "action": "function {IDENTIFIER}({{ARGUMENTS}}) {\n  throw new Error('Unimplemented cerebral action {IDENTIFIER}');\n}\n{OUTPUTS}{ASYNC}\nexport default {IDENTIFIER};\n",
-      "actionFactory": "export default ({FACTORYARGUMENTS}) => {\n  function {IDENTIFIER}({{ARGUMENTS}}) {\n    throw new Error('Unimplemented cerebral factory {IDENTIFIER}');\n  }\n{OUTPUTS}{ASYNC}\n  return {IDENTIFIER};\n};\n",
-      "chainFactory": "export default ({FACTORYARGUMENTS}) => {\n  function {IDENTIFIER}({{ARGUMENTS}}) {\n    throw new Error('Unimplemented cerebral factory {IDENTIFIER}');\n  }\n{OUTPUTS}{ASYNC}\n  return {IDENTIFIER};\n};\n",
-      "signal": "export default [\n    () => throw new Error('Unimplemented cerebral signal {IDENTIFIER}')\n];\n"
-    },
-    "paths": {
-      "actionFactory": "actionFactories",
-      "chainFactory": "chainFactories",
-      "chain": "chains",
-      "action": "actions",
-      "signal": "signals"
-    },
-    "extension": ".js"
-  }
+    "indentation": "    ",
+    "indentationPrefersEditorConfig": true
+  },
+  "specialImports": [{
+    "keys": ["debounce", "when", "wait", "equals", "concat", "increment", "merge", "pop", "push", "set", "shift", "splice", "toggle", "unset", "unshift"],
+    "importPath": "cerebral/operators/{KEY}"
+  }, {
+    "keys": ["state", "props"],
+    "importPath": "cerebral/tags/{KEY}"
+  }],
+  "templates": {
+    "chain": "export default [\n  () => { throw new Error('Unimplemented cerebral chain {IDENTIFIER}'); }\n];\n",
+    "action": "{ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {\n  throw new Error('Unimplemented cerebral action {IDENTIFIER}');\n}\nexport default {IDENTIFIER};\n",
+    "actionFactory": "export default ({FACTORYARGUMENTS}) => {\n  {ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {\n    throw new Error('Unimplemented cerebral factory {IDENTIFIER}');\n  }\n  return {IDENTIFIER};\n};\n",
+    "chainFactory": "export default ({FACTORYARGUMENTS}) => {\n  {ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {\n    throw new Error('Unimplemented cerebral factory {IDENTIFIER}');\n  }\n  return {IDENTIFIER};\n};\n",
+    "signal": "export default [\n    () => { throw new Error('Unimplemented cerebral signal {IDENTIFIER}'); }\n];\n"
+  },
+  "paths": {
+    "actionFactory": "actionFactories",
+    "chainFactory": "chainFactories",
+    "chain": "chains",
+    "action": "actions",
+    "signal": "signals"
+  },
+  "extension": ".js"
 }

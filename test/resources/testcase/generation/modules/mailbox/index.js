@@ -1,8 +1,10 @@
-export default (module) => {
-    module.addSignals({
-        messageOpened,
-        somethingElse: {
-            chain: sampleChain
+export default module => {
+    return {
+        signals: {
+            messageOpened,
+            somethingElse: {
+                chain: sampleChain
+            }
         }
-    });
+    };
 };

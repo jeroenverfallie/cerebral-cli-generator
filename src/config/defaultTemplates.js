@@ -4,7 +4,7 @@ export const chain = `export default [
 `;
 
 export const signal = `export default [
-    () => throw new Error('Unimplemented cerebral signal {IDENTIFIER}')
+    () => { throw new Error('Unimplemented cerebral signal {IDENTIFIER}'); }
 ];
 `;
 
