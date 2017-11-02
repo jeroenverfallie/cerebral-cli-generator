@@ -15,14 +15,21 @@ export default {
     specialImports: [
         {
             keys: [
-                'set',
-                'unset',
-                'toggle',
-                'throttle',
                 'debounce',
-                'delay',
                 'when',
-                'copy'
+                'wait',
+                'equals',
+                'concat',
+                'increment',
+                'merge',
+                'pop',
+                'push',
+                'set',
+                'shift',
+                'splice',
+                'toggle',
+                'unset',
+                'unshift'
             ],
             importPath: 'cerebral/operators/{KEY}'
         },
