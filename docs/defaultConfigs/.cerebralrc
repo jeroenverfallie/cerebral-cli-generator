@@ -20,9 +20,9 @@
   "templates": {
     "chain": "export default [\n  () => { throw new Error('Unimplemented cerebral chain {IDENTIFIER}'); }\n];\n",
     "action": "{ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {\n  throw new Error('Unimplemented cerebral action {IDENTIFIER}');\n}\nexport default {IDENTIFIER};\n",
-    "actionFactory": "export default ({FACTORYARGUMENTS}) => {\n  {ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {\n    throw new Error('Unimplemented cerebral factory {IDENTIFIER}');\n  }\n  return {IDENTIFIER};\n};\n",
-    "chainFactory": "export default ({FACTORYARGUMENTS}) => {\n  {ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {\n    throw new Error('Unimplemented cerebral factory {IDENTIFIER}');\n  }\n  return {IDENTIFIER};\n};\n",
-    "signal": "export default [\n    () => { throw new Error('Unimplemented cerebral signal {IDENTIFIER}'); }\n];\n"
+    "actionFactory": "export default ({FACTORYARGUMENTS}) => {\n  {ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {\n  throw new Error('Unimplemented cerebral factory {IDENTIFIER}');\n  }\n  return {IDENTIFIER};\n};\n",
+    "chainFactory": "export default ({FACTORYARGUMENTS}) => {\n  {ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {\n  throw new Error('Unimplemented cerebral factory {IDENTIFIER}');\n  }\n  return {IDENTIFIER};\n};\n",
+    "signal": "export default [\n  () => { throw new Error('Unimplemented cerebral signal {IDENTIFIER}'); }\n];\n"
   },
   "paths": {
     "actionFactory": "actionFactories",
