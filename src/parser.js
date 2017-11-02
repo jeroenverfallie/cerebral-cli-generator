@@ -86,6 +86,10 @@ function recursiveFindSignals(body) {
         return recursiveFindSignals(body.declaration.body);
     }
 
+    if (body.declaration && body.declaration.properties) {
+        return recursiveFindSignals(body.declaration.properties);
+    }
+
     if (body.body) {
         return recursiveFindSignals(body.body);
     }

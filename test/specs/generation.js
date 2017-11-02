@@ -63,6 +63,18 @@ describe('Config files', () => {
             .true;
     });
 
+    it('should work on module object files', () => {
+        generation.performOnFile({
+            filePath: './modules/message-object/index.js',
+            write: true
+        });
+
+        expect(fileExists('./modules/message-object/signals/messageOpened.js'))
+            .to.be.true;
+        expect(fileExists('./modules/message-object/chains/sampleChain.js')).to
+            .be.true;
+    });
+
     it('should work on module factory files es5', () => {
         generation.performOnFile({
             filePath: './modules/message-function/index.js',
