@@ -1,9 +1,8 @@
 # .cerebralrc
 
 The generator will search for a .cerebralrc file from the file all the way up your filesystem, and finally in your home directory.
-If found, it will overwrite any cli flags or editor options.
 
-The file can be in either json or cson. Important: if you choose cson, the extension is required. (so .cerebralrc.cson)
+The file can be in either json or cson. Important: if you choose cson, the extension is required. (so `.cerebralrc.cson`)
 
 # Generator Config format
 
@@ -44,7 +43,7 @@ Let the .editorconfig override the indentation.
 
 Defaults to the cerebral/operators.
 
-### - As an array:
+### - As an array, with elements like:
 
 Either an object with a one-to-one mapping:
 
@@ -54,12 +53,22 @@ Either an object with a one-to-one mapping:
 }
 ```
 
-Or an object with `keys` and `importPath`.
+Or an object with `keys` and `importPath`:
 
 ```javascript
 {
     keys: ['set', 'unset', 'toggle'],
     importPath: 'cerebral/operators/{KEY}' // {KEY} is being replaced by the generator.
+}
+```
+
+Or using destructs `import { set } from 'cerebral/operators'`:
+
+```javascript
+{
+    keys: ['set', 'unset', 'toggle'],
+    importPath: 'cerebral/operators',
+    destruct: true
 }
 ```
 
@@ -69,7 +78,7 @@ Equal to the one-to-one mapping above.
 
 ## generator.templates (`object`)
 
-Requires `chain`, `action`, `chainFactory`, `actionFactory` templates. Optionally requires `signal` template depending on the legacy option.
+Requires `chain`, `action`, `chainFactory`, `actionFactory`, `signal` templates. 
 
 Take a look at the default templates for what variables you can use.
 
