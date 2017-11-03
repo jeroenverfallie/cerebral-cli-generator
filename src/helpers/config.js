@@ -10,7 +10,10 @@ import defaultConfig from '../config/defaultConfig.js';
 const CONFIG_FILENAME = '.cerebralrc';
 
 export function getConfig(filePath, masterConfig) {
-    const userConfig = !masterConfig || masterConfig.useRcFile ? getConfigRc(filePath) : masterConfig;
+    const userConfig =
+        !masterConfig || masterConfig.useRcFile
+            ? getConfigRc(filePath)
+            : masterConfig;
     const config = deepExtend(clone(defaultConfig), userConfig);
 
     // Check editorconfig
@@ -18,7 +21,9 @@ export function getConfig(filePath, masterConfig) {
         const ec = editorConfig.parseSync(filePath);
         if (ec && ec.indent_style) {
             if (ec.indent_style === 'space') {
-                config.style.indentation = new Array(ec.indent_size + 1).join(' ');
+                config.style.indentation = new Array(ec.indent_size + 1).join(
+                    ' '
+                );
             }
             if (ec.indent_style === 'tab') {
                 config.style.indentation = '\t';
@@ -32,12 +37,14 @@ export function getConfig(filePath, masterConfig) {
 }
 
 function getConfigRc(filePath) {
-    const configPath = fsHelpers.findConfigFilePath(path.dirname(filePath), CONFIG_FILENAME);
+    const configPath = fsHelpers.findConfigFilePath(
+        path.dirname(filePath),
+        CONFIG_FILENAME
+    );
 
     if (!configPath) {
         return {};
     }
-
 
     try {
         const config = season.readFileSync(configPath);
@@ -49,14 +56,26 @@ function getConfigRc(filePath) {
 
 function mapSpecialImports(config) {
     const map = {};
-    const processNode = (node) => {
+    const processNode = node => {
         if (node.keys && node.importPath) {
             node.keys.map(key => {
-                map[key] = node.importPath.replace(/\{KEY\}/g, key);
+                if (node.destruct) {
+                    map[key] = key =>
+                        `import { ${key} } from '${node.importPath.replace(
+                            /\{KEY\}/g,
+                            key
+                        )}'`;
+                } else {
+                    map[key] = key =>
+                        `import ${key} from '${node.importPath.replace(
+                            /\{KEY\}/g,
+                            key
+                        )}'`;
+                }
             });
         } else {
             Object.keys(node).map(key => {
-                map[key] = node[key];
+                map[key] = () => `import ${key} from '${node[key]}'`;
             });
         }
     };

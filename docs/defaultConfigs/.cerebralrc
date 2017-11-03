@@ -12,10 +12,12 @@
   },
   "specialImports": [{
     "keys": ["debounce", "when", "wait", "equals", "concat", "increment", "merge", "pop", "push", "set", "shift", "splice", "toggle", "unset", "unshift"],
-    "importPath": "cerebral/operators/{KEY}"
+    "importPath": "cerebral/operators",
+    "destruct": true
   }, {
-    "keys": ["state", "props"],
-    "importPath": "cerebral/tags/{KEY}"
+    "keys": ["state", "props", "string", "signal"],
+    "importPath": "cerebral/tags",
+    "destruct": true
   }],
   "templates": {
     "chain": "export default [\n  () => { throw new Error('Unimplemented cerebral chain {IDENTIFIER}'); }\n];\n",

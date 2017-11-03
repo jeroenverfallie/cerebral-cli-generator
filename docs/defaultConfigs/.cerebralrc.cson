@@ -27,14 +27,18 @@ generator:
 				"unset"
 				"unshift"
 			]
-			importPath: "cerebral/operators/{KEY}"
+			importPath: "cerebral/operators"
+      destruct: true
 		}
 		{
 			keys: [
 				"state"
 				"props"
+        "string"
+        "signal"
 			]
-			importPath: "cerebral/tags/{KEY}"
+			importPath: "cerebral/tags"
+      destruct: true
 		}
 	]
 	templates:

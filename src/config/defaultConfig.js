@@ -31,11 +31,13 @@ export default {
                 'unset',
                 'unshift'
             ],
-            importPath: 'cerebral/operators/{KEY}'
+            importPath: 'cerebral/operators',
+            destruct: true
         },
         {
-            keys: ['state', 'props'],
-            importPath: 'cerebral/tags/{KEY}'
+            keys: ['state', 'props', 'string', 'signal'],
+            importPath: 'cerebral/tags',
+            destruct: true
         }
     ],
     legacy: {
@@ -49,8 +51,8 @@ export default {
         signal: defaultTemplates.signal
     },
     paths: {
-        actionFactory: 'actionFactories',
-        chainFactory: 'chainFactories',
+        actionFactory: 'factories',
+        chainFactory: 'factories',
         chain: 'chains',
         action: 'actions',
         signal: 'signals',

@@ -45,7 +45,10 @@ function generateImports(parseResult, config) {
             }
 
             if (config.specialImportsMap[part.identifier]) {
-                path = config.specialImportsMap[part.identifier];
+                line =
+                    config.specialImportsMap[part.identifier](part.identifier) +
+                    (config.style.imports.semiColon ? ';' : '');
+                path = line.match(/\'(.*)\'/)[1];
             } else {
                 path = `${typePaths[
                     partType
@@ -57,15 +60,15 @@ function generateImports(parseResult, config) {
                 } else {
                     path = `./${path}`;
                 }
-            }
 
-            const importPath = config.style.imports.extension
-                ? path
-                : path.replace(config.extension, '');
-            line = `import ${part.identifier} from '${importPath}'${config.style
-                .imports.semiColon
-                ? ';'
-                : ''}`;
+                const importPath = config.style.imports.extension
+                    ? path
+                    : path.replace(config.extension, '');
+                line = `import ${part.identifier} from '${importPath}'${config
+                    .style.imports.semiColon
+                    ? ';'
+                    : ''}`;
+            }
 
             let content = false;
             if (shouldCreateFile) {
@@ -109,6 +112,34 @@ export function generate(fileContent, parseResult, config) {
 
         imports = [...parseResult.imports, ...newImports];
     }
+
+    // merge destruction lines
+    const mergedImports = [];
+    const destructedImps = {};
+    imports.forEach(imp => {
+        if (imp.lines[0].indexOf('{') > -1) {
+            destructedImps[imp.path] = [
+                ...(destructedImps[imp.path] || []),
+                imp
+            ];
+            imp.remove = true;
+        }
+    });
+
+    Object.keys(destructedImps).forEach(key => {
+        const importsToMerge = destructedImps[key];
+        const keys = importsToMerge
+            .map(imp => imp.lines[0].match(/\{(.*)\}/)[1].trim())
+            .join(', ');
+        mergedImports.push({
+            lines: [
+                importsToMerge[0].lines[0].replace(/\{.*\}/, `{ ${keys} }`)
+            ],
+            path: importsToMerge[0].path,
+            shouldCreateFile: false
+        });
+    });
+    imports = [...imports.filter(i => !i.remove), ...mergedImports];
 
     if (config.style.imports.sortBy === 'type') {
         imports = imports.sort((a, b) => {
@@ -161,8 +192,8 @@ export function generate(fileContent, parseResult, config) {
             lastFirstPartOfPath = thisFirstPartOfPath;
         });
 
-        newContent = importsText + '\n' + newContent;
-        newContent = newContent.replace(/\n{4,}/, '\n\n\n');
+        newContent =
+            importsText.trim('\n') + '\n\n' + newContent.trim('\n') + '\n';
 
         return {
             content: newContent,

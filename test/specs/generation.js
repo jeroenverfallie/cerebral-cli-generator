@@ -195,25 +195,23 @@ describe('Config files', () => {
         ).to.be.true;
         expect(
             fileExists(
-                './complicated/chainFactories/getProfileLoggedActivitiesForSpecifiedDay.js'
+                './complicated/factories/getProfileLoggedActivitiesForSpecifiedDay.js'
             )
         ).to.be.true;
-        expect(
-            fileExists('./complicated/chainFactories/toggleLoggedActivity.js')
-        ).to.be.true;
+        expect(fileExists('./complicated/factories/toggleLoggedActivity.js')).to
+            .be.true;
         expect(
             fileExists('./complicated/actions/outputPointsAndCo2Modifiers.js')
         ).to.be.true;
-        expect(fileExists('./complicated/chainFactories/updateProfile.js')).to
+        expect(fileExists('./complicated/factories/updateProfile.js')).to.be
+            .true;
+        expect(fileExists('./complicated/factories/getProfileChallenges.js')).to
             .be.true;
-        expect(
-            fileExists('./complicated/chainFactories/getProfileChallenges.js')
-        ).to.be.true;
         expect(fileExists('./complicated/actions/outputActiveChallenges.js')).to
             .be.true;
         expect(
             fileExists(
-                './complicated/chainFactories/updateChallengesPointsAndCo2.js'
+                './complicated/factories/updateChallengesPointsAndCo2.js'
             )
         ).to.be.true;
         expect(
@@ -225,8 +223,7 @@ describe('Config files', () => {
         expect(fileExists('./complicated/actions/resolveTask.js')).to.be.true;
         expect(fileExists('./complicated/actions/fetchSomethingAsync.js')).to.be
             .true;
-        expect(fileExists('./complicated/actionFactories/doSomething.js')).to.be
-            .true;
+        expect(fileExists('./complicated/factories/doSomething.js')).to.be.true;
         expect(fileExists('./complicated/chains/failChain.js')).to.be.true;
     });
 });
