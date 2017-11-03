@@ -1,88 +1,88 @@
 generator:
-	style:
-		imports:
-			semiColon: true
-			sortAll: true
-			sortBy: "type"
-			separateGroups: "all"
-			extension: false
-		indentation: "    "
-		indentationPrefersEditorConfig: true
-	extension: ".js"
-	specialImports: [
-		{
-			keys: [
-				"debounce"
-				"when"
-				"wait"
-				"equals"
-				"concat"
-				"increment"
-				"merge"
-				"pop"
-				"push"
-				"set"
-				"shift"
-				"splice"
-				"toggle"
-				"unset"
-				"unshift"
-			]
-			importPath: "cerebral/operators"
-			destruct: true
-		}
-		{
-			keys: [
-				"state"
-				"props"
-				"string"
-				"signal"
-			]
-			importPath: "cerebral/tags"
-			destruct: true
-		}
-	]
-	templates:
-		chain: '''
-			export default [
-			  () => { throw new Error('Unimplemented cerebral chain {IDENTIFIER}'); }
-			];
+  style:
+    imports:
+      semiColon: true
+      sortAll: true
+      sortBy: "type"
+      separateGroups: "all"
+      extension: false
+    indentation: "    "
+    indentationPrefersEditorConfig: true
+  extension: ".js"
+  specialImports: [
+    {
+      keys: [
+        "debounce"
+        "when"
+        "wait"
+        "equals"
+        "concat"
+        "increment"
+        "merge"
+        "pop"
+        "push"
+        "set"
+        "shift"
+        "splice"
+        "toggle"
+        "unset"
+        "unshift"
+      ]
+      importPath: "cerebral/operators"
+      destruct: true
+    }
+    {
+      keys: [
+        "state"
+        "props"
+        "string"
+        "signal"
+      ]
+      importPath: "cerebral/tags"
+      destruct: true
+    }
+  ]
+  templates:
+    chain: '''
+      export default [
+        () => { throw new Error('Unimplemented cerebral chain {IDENTIFIER}'); }
+      ];
 
-		'''
-		action: '''
-			{ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {
-			  throw new Error('Unimplemented cerebral action {IDENTIFIER}');
-			}
-			export default {IDENTIFIER};
+    '''
+    action: '''
+      {ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {
+        throw new Error('Unimplemented cerebral action {IDENTIFIER}');
+      }
+      export default {IDENTIFIER};
 
-		'''
-		actionFactory: '''
-			export default ({FACTORYARGUMENTS}) => {
-			  {ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {
-			  throw new Error('Unimplemented cerebral factory {IDENTIFIER}');
-			  }
-			  return {IDENTIFIER};
-			};
+    '''
+    actionFactory: '''
+      export default ({FACTORYARGUMENTS}) => {
+        {ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {
+        throw new Error('Unimplemented cerebral factory {IDENTIFIER}');
+        }
+        return {IDENTIFIER};
+      };
 
-		'''
-		chainFactory: '''
-			export default ({FACTORYARGUMENTS}) => {
-			  {ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {
-			  throw new Error('Unimplemented cerebral factory {IDENTIFIER}');
-			  }
-			  return {IDENTIFIER};
-			};
+    '''
+    chainFactory: '''
+      export default ({FACTORYARGUMENTS}) => {
+        {ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {
+        throw new Error('Unimplemented cerebral factory {IDENTIFIER}');
+        }
+        return {IDENTIFIER};
+      };
 
-		'''
-		signal: '''
-			export default [
-			  () => { throw new Error('Unimplemented cerebral signal {IDENTIFIER}'); }
-			];
+    '''
+    signal: '''
+      export default [
+        () => { throw new Error('Unimplemented cerebral signal {IDENTIFIER}'); }
+      ];
 
-		'''
-	paths:
-		actionFactory: "actionFactories"
-		chainFactory: "chainFactories"
-		chain: "chains"
-		action: "actions"
-		signal: "signals"
+    '''
+  paths:
+    actionFactory: "actionFactories"
+    chainFactory: "chainFactories"
+    chain: "chains"
+    action: "actions"
+    signal: "signals"
