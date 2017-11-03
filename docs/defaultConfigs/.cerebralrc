@@ -1,37 +1,63 @@
 {
-  "style": {
-    "imports": {
-      "semiColon": true,
-      "sortAll": true,
-      "sortBy": "type",
-      "separateGroups": "all",
-      "extension": false
-    },
-    "indentation": "    ",
-    "indentationPrefersEditorConfig": true
-  },
-  "specialImports": [{
-    "keys": ["debounce", "when", "wait", "equals", "concat", "increment", "merge", "pop", "push", "set", "shift", "splice", "toggle", "unset", "unshift"],
-    "importPath": "cerebral/operators",
-    "destruct": true
-  }, {
-    "keys": ["state", "props", "string", "signal"],
-    "importPath": "cerebral/tags",
-    "destruct": true
-  }],
-  "templates": {
-    "chain": "export default [\n  () => { throw new Error('Unimplemented cerebral chain {IDENTIFIER}'); }\n];\n",
-    "action": "{ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {\n  throw new Error('Unimplemented cerebral action {IDENTIFIER}');\n}\nexport default {IDENTIFIER};\n",
-    "actionFactory": "export default ({FACTORYARGUMENTS}) => {\n  {ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {\n  throw new Error('Unimplemented cerebral factory {IDENTIFIER}');\n  }\n  return {IDENTIFIER};\n};\n",
-    "chainFactory": "export default ({FACTORYARGUMENTS}) => {\n  {ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {\n  throw new Error('Unimplemented cerebral factory {IDENTIFIER}');\n  }\n  return {IDENTIFIER};\n};\n",
-    "signal": "export default [\n  () => { throw new Error('Unimplemented cerebral signal {IDENTIFIER}'); }\n];\n"
-  },
-  "paths": {
-    "actionFactory": "actionFactories",
-    "chainFactory": "chainFactories",
-    "chain": "chains",
-    "action": "actions",
-    "signal": "signals"
-  },
-  "extension": ".js"
+    "generator": {
+        "style": {
+            "imports": {
+                "semiColon": true,
+                "sortAll": true,
+                "sortBy": "type",
+                "separateGroups": "all",
+                "extension": false
+            },
+            "indentation": "    ",
+            "indentationPrefersEditorConfig": true
+        },
+        "extension": ".js",
+        "specialImports": [
+            {
+                "keys": [
+                    "debounce",
+                    "when",
+                    "wait",
+                    "equals",
+                    "concat",
+                    "increment",
+                    "merge",
+                    "pop",
+                    "push",
+                    "set",
+                    "shift",
+                    "splice",
+                    "toggle",
+                    "unset",
+                    "unshift"
+                ],
+                "importPath": "cerebral/operators",
+                "destruct": true
+            },
+            {
+                "keys": ["state", "props", "string", "signal"],
+                "importPath": "cerebral/tags",
+                "destruct": true
+            }
+        ],
+        "templates": {
+            "chain":
+                "export default [\n  () => { throw new Error('Unimplemented cerebral chain {IDENTIFIER}'); }\n];\n",
+            "action":
+                "{ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {\n  throw new Error('Unimplemented cerebral action {IDENTIFIER}');\n}\nexport default {IDENTIFIER};\n",
+            "actionFactory":
+                "export default ({FACTORYARGUMENTS}) => {\n  {ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {\n  throw new Error('Unimplemented cerebral factory {IDENTIFIER}');\n  }\n  return {IDENTIFIER};\n};\n",
+            "chainFactory":
+                "export default ({FACTORYARGUMENTS}) => {\n  {ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {\n  throw new Error('Unimplemented cerebral factory {IDENTIFIER}');\n  }\n  return {IDENTIFIER};\n};\n",
+            "signal":
+                "export default [\n  () => { throw new Error('Unimplemented cerebral signal {IDENTIFIER}'); }\n];\n"
+        },
+        "paths": {
+            "actionFactory": "actionFactories",
+            "chainFactory": "chainFactories",
+            "chain": "chains",
+            "action": "actions",
+            "signal": "signals"
+        }
+    }
 }

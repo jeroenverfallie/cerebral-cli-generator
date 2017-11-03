@@ -8,6 +8,7 @@ generator:
 			extension: false
 		indentation: "    "
 		indentationPrefersEditorConfig: true
+	extension: ".js"
 	specialImports: [
 		{
 			keys: [
@@ -28,17 +29,17 @@ generator:
 				"unshift"
 			]
 			importPath: "cerebral/operators"
-      destruct: true
+			destruct: true
 		}
 		{
 			keys: [
 				"state"
 				"props"
-        "string"
-        "signal"
+				"string"
+				"signal"
 			]
 			importPath: "cerebral/tags"
-      destruct: true
+			destruct: true
 		}
 	]
 	templates:
@@ -58,7 +59,7 @@ generator:
 		actionFactory: '''
 			export default ({FACTORYARGUMENTS}) => {
 			  {ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {
-			    throw new Error('Unimplemented cerebral factory {IDENTIFIER}');
+			  throw new Error('Unimplemented cerebral factory {IDENTIFIER}');
 			  }
 			  return {IDENTIFIER};
 			};
@@ -67,7 +68,7 @@ generator:
 		chainFactory: '''
 			export default ({FACTORYARGUMENTS}) => {
 			  {ASYNC}function {IDENTIFIER}({ {ARGUMENTS} }) {
-			    throw new Error('Unimplemented cerebral factory {IDENTIFIER}');
+			  throw new Error('Unimplemented cerebral factory {IDENTIFIER}');
 			  }
 			  return {IDENTIFIER};
 			};
@@ -85,4 +86,3 @@ generator:
 		chain: "chains"
 		action: "actions"
 		signal: "signals"
-	extension: ".js"
